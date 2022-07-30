@@ -1,0 +1,20 @@
+.search-div {
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar {
+  display: flex;
+  width: 40%;
+}
+.search-bar > input {
+  border: none;
+  width: 100%;
+  outline: none;
+  border-bottom: 1px solid gray;
+  margin-left: 10px;
+}
+
+.search-bar > input:focus {
+  border-bottom: 2px solid rgb(82, 82, 82);
+}

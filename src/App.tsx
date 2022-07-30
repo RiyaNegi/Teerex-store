@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Products from "./components/Products/Index";
+import Filter from "./components/Filter/Index";
+import SearchBar from "./components/SearchBar/Index";
+import { useContext } from "react";
+import { GlobalContext } from "./context/Provider";
 
 function App() {
+  const globalStore: any = useContext(GlobalContext);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className="screen-space">
+        <SearchBar />
+        <div className="screen-divide ">
+          <Filter />
+          {globalStore.productList.length > 0 ? (
+            <Products />
+          ) : (
+            <div>loading...</div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
