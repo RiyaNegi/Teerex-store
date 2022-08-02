@@ -20,7 +20,12 @@ const Navbar = () => {
           {" "}
           <Link className="tee-link" to="/Cart">
             {globalStore.cartList.length > 0 && (
-              <div className="cart-count ">{globalStore.cartList.length}</div>
+              <div className="cart-count ">
+                {globalStore.cartList.reduce(
+                  (acc: any, amt: any) => (acc += amt.quantity),
+                  0
+                )}
+              </div>
             )}
             <img src={cart} style={{ width: 18 }} />
           </Link>
