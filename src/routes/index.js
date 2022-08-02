@@ -10,7 +10,7 @@ const RouteIndex = () => {
     <div className="App">
       <Navbar />
       <Routes>
-        <Route exact path="/" element={<App />} />
+        <Route exact path="/Teerex-store" element={<App />} />
         <Route path="/cart" element={<CartPage />} />
       </Routes>
       <Toaster
