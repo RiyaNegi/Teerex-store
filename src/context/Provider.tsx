@@ -39,7 +39,6 @@ export const GlobalProvider = ({ children }: { children: any }) => {
   const [productdata, setProductData] = useState<ProductList>([]);
   const [cartList, setUpdateCart] = useState<ProductList>([]);
   const [filterList, setfilterList] = useState<FilterList>([]);
-  const [filterSearch, setFilterSearch] = useState<ProductList>([]);
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
@@ -70,8 +69,9 @@ export const GlobalProvider = ({ children }: { children: any }) => {
   const clearFilters = () => clearFiltersFunc(setfilterList);
 
   useEffect(() => {
-    let filteredSearch: ProductList =
-      filterList.length > 0 ? [...productList] : [...productdata];
+    let filteredSearch: ProductList = [...productdata];
+
+    filteredSearch = performFilter(productdata, filterList);
     const filterTypes = ["name", "color", "type"];
 
     const filterSearch = (item: object) => {
@@ -82,56 +82,17 @@ export const GlobalProvider = ({ children }: { children: any }) => {
       });
       return flag;
     };
-    /*eslint-disable */
-    search === ""
-      ? setFilterSearch([])
-      : ((filteredSearch = filteredSearch.filter((item) => filterSearch(item))),
-        setFilterSearch(filteredSearch));
-    /*eslint-enable */
+
+    if (search === "") {
+      setProductList(filteredSearch);
+    } else {
+      filteredSearch = filteredSearch.filter((item) => filterSearch(item));
+      setProductList(filteredSearch);
+    }
   }, [search, filterList]);
 
   useEffect(() => {
-    let filteredList: ProductList = [...productdata];
-
-    const filtering = (
-      arrList: ProductList,
-      filters: {
-        type: string;
-        choice: string[];
-      }
-    ) => {
-      return arrList.filter((item) =>
-        //@ts-ignore
-        filters.choice.includes(item[filters.type])
-      );
-    };
-
-    const filterPrice = (
-      arrList: ProductList,
-      item: { type: string; choice: string[] }
-    ) => {
-      return arrList.filter((product) => {
-        return (
-          item.choice.filter((val) => {
-            let min = JSON.parse(val.split("- ")[0].substring(2));
-            let max = val.split("- ")[1]
-              ? JSON.parse(val.split("- ")[1].substring(2))
-              : MAX_PRICE;
-            return product.price >= min && product.price <= max;
-          }).length > 0
-        );
-      });
-    };
-
-    const shouldFilter = filterList.filter((i) => i.choice.length > 0);
-    shouldFilter.length > 0
-      ? filterList.forEach((val) => {
-          val.type === "price"
-            ? (filteredList = filterPrice(filteredList, val))
-            : (filteredList = filtering(filteredList, val));
-        })
-      : (filteredList = [...productdata]);
-
+    const filteredList = performFilter(productdata, filterList);
     setProductList(filteredList);
   }, [filterList]);
 
@@ -159,7 +120,6 @@ export const GlobalProvider = ({ children }: { children: any }) => {
         filterList,
         setSearch,
         search,
-        filterSearch,
         clearFilters,
         width: windowDimensions.width,
         error,
@@ -169,3 +129,47 @@ export const GlobalProvider = ({ children }: { children: any }) => {
     </GlobalContext.Provider>
   );
 };
+
+function performFilter(productdata: ProductList, filterList: FilterList) {
+  let filteredList: ProductList = [...productdata];
+  const filtering = (
+    arrList: ProductList,
+    filters: {
+      type: string;
+      choice: string[];
+    }
+  ) => {
+    return arrList.filter((item) =>
+      //@ts-ignore
+      filters.choice.includes(item[filters.type])
+    );
+  };
+
+  const filterPrice = (
+    arrList: ProductList,
+    item: { type: string; choice: string[] }
+  ) => {
+    return arrList.filter((product) => {
+      return (
+        item.choice.filter((val) => {
+          let min = JSON.parse(val.split("- ")[0].substring(2));
+          let max = val.split("- ")[1]
+            ? JSON.parse(val.split("- ")[1].substring(2))
+            : MAX_PRICE;
+          return product.price >= min && product.price <= max;
+        }).length > 0
+      );
+    });
+  };
+
+  const shouldFilter = filterList.filter((i: any) => i.choice.length > 0);
+  shouldFilter.length > 0
+    ? filterList.forEach((val: any) => {
+        val.type === "price"
+          ? (filteredList = filterPrice(filteredList, val))
+          : (filteredList = filtering(filteredList, val));
+      })
+    : (filteredList = [...productdata]);
+
+  return filteredList;
+}

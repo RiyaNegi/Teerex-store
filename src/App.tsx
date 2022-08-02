@@ -21,7 +21,7 @@ function App() {
               Sorry, there was an error. Please refresh again later.
             </div>
           ) : globalStore.search != "" &&
-            globalStore.filterSearch.length === 0 ? (
+            globalStore.productList.length === 0 ? (
             <div style={{ width: "100%" }}>Nothing matching your search</div>
           ) : globalStore.filterList.length > 0 &&
             globalStore.productList.length === 0 ? (

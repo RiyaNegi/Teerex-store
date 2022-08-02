@@ -6,10 +6,7 @@ import ItemQuantity from "./ItemQuantity";
 
 const Index = () => {
   const globalStore: any = useContext(GlobalContext);
-  const productList =
-    globalStore.filterSearch.length > 0
-      ? globalStore.filterSearch
-      : globalStore.productList;
+  const productList = globalStore.productList;
   const cartList = globalStore.cartList;
 
   const productCard = (i: any) => {
