@@ -21,6 +21,11 @@ type ProductList = {
   gender: string;
 }[];
 
+type FilterList = {
+  type: string;
+  choice: string[];
+}[];
+
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
   return {
@@ -33,17 +38,13 @@ export const GlobalProvider = ({ children }: { children: any }) => {
   const [productList, setProductList] = useState<ProductList>([]);
   const [productdata, setProductData] = useState<ProductList>([]);
   const [cartList, setUpdateCart] = useState<ProductList>([]);
-  const [filterList, setfilterList] = useState<
-    {
-      type: string;
-      choice: string[];
-    }[]
-  >([]);
+  const [filterList, setfilterList] = useState<FilterList>([]);
   const [filterSearch, setFilterSearch] = useState<ProductList>([]);
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
   const [search, setSearch] = useState("");
+  const [error, setError] = useState(false);
 
   const notify = () => toast.error("No more items available!");
 
@@ -142,7 +143,7 @@ export const GlobalProvider = ({ children }: { children: any }) => {
         setProductList(response.data);
       })
       .catch(function (error) {
-        console.log(error);
+        setError(true);
       });
   }, []);
 
@@ -161,6 +162,7 @@ export const GlobalProvider = ({ children }: { children: any }) => {
         filterSearch,
         clearFilters,
         width: windowDimensions.width,
+        error,
       }}
     >
       {children}

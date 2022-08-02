@@ -21,6 +21,7 @@ const Index = () => {
       <div className="prod-card" key={i.id}>
         <div className="prod-img">
           <img src={i.imageURL} alt={i.name} />
+          <span className="prod-name">{i.name}</span>
         </div>
         <div className="prod-details">
           <span>Rs{i.price}</span>

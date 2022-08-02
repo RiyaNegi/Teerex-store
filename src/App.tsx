@@ -16,11 +16,16 @@ function App() {
         </div>
         <div className="screen-divide ">
           {globalStore.width > MOBILE_DIMENSION && <Filter />}
-          {globalStore.search != "" && globalStore.filterSearch.length === 0 ? (
-            <div>Nothing matching your search</div>
+          {globalStore.error ? (
+            <div style={{ width: "100%" }}>
+              Sorry, there was an error. Please refresh again later.
+            </div>
+          ) : globalStore.search != "" &&
+            globalStore.filterSearch.length === 0 ? (
+            <div style={{ width: "100%" }}>Nothing matching your search</div>
           ) : globalStore.filterList.length > 0 &&
             globalStore.productList.length === 0 ? (
-            <div>Nothing matches your filter</div>
+            <div style={{ width: "100%" }}>Nothing matches your filter</div>
           ) : globalStore.productList.length > 0 ? (
             <div className="product-div">
               <Products />
