@@ -2,10 +2,10 @@ import React, { createContext, useReducer, useState, useEffect } from "react";
 import axios from "axios";
 import _ from "lodash";
 import toast, { Toaster } from "react-hot-toast";
-import updateListFunc from "./updateItems";
-import deleteItemFunc from "./deleteItem";
-import updateFilterListFunc from "./updateFilterList";
-import clearFiltersFunc from "./clearFiltersFunc";
+import updateListFunc from "../utils/updateItems";
+import deleteItemFunc from "../utils/deleteItem";
+import updateFilterListFunc from "../utils/updateFilterList";
+import clearFiltersFunc from "../utils/clearFiltersFunc";
 import { BASE_URL, MAX_PRICE } from "../constants";
 
 export const GlobalContext = createContext({});

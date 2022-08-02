@@ -13,7 +13,7 @@ const Index = () => {
       <div className="cart-row">
         <div className="cart-item-row">
           <div style={{ display: "flex" }}>
-            <img src={value.imageURL} style={{ width: 100 }} />
+            <img className="cart-img" src={value.imageURL} />
             <div className="cart-details">
               <span>{value.name}</span>
               <span>Rs{value.price}</span>
