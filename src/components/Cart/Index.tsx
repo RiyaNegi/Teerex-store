@@ -7,7 +7,6 @@ import ItemQuantity from "../Products/ItemQuantity";
 
 const Index = () => {
   const globalStore: any = useContext(GlobalContext);
-  console.log("check", globalStore.cartList);
 
   const shoppingList = (value: any) => {
     return (

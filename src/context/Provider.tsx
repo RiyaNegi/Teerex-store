@@ -4,39 +4,35 @@ import _ from "lodash";
 import toast, { Toaster } from "react-hot-toast";
 import updateListFunc from "./updateItems";
 import deleteItemFunc from "./deleteItem";
+import updateFilterListFunc from "./updateFilterList";
+import clearFiltersFunc from "./clearFiltersFunc";
 
 export const GlobalContext = createContext({});
 
-const filterType = ["color", "gender", "price", "type"];
+type ProductList = {
+  id: string;
+  name: string;
+  price: number;
+  imageURL: string;
+  quantity: number;
+  type: string;
+  color: string;
+  gender: string;
+}[];
 
 export const GlobalProvider = ({ children }: { children: any }) => {
-  const [productList, setProductList] = useState<
-    {
-      id: string;
-      name: string;
-      price: number;
-      imageURL: string;
-      quantity: number;
-      type: string;
-      color: string;
-      gender: string;
-    }[]
-  >([]);
-  const [cartList, setUpdateCart] = useState<
-    {
-      id: string;
-      name: string;
-      price: number;
-      imageURL: string;
-      quantity: number;
-    }[]
-  >([]);
+  const [productList, setProductList] = useState<ProductList>([]);
+  const [productdata, setProductData] = useState<ProductList>([]);
+  const [cartList, setUpdateCart] = useState<ProductList>([]);
   const [filterList, setfilterList] = useState<
     {
       type: string;
-      choice: string | number;
+      choice: string[];
     }[]
   >([]);
+  const [filterSearch, setFilterSearch] = useState<ProductList>([]);
+
+  const [search, setSearch] = useState("");
 
   const notify = () => toast.error("No more items available!");
 
@@ -46,39 +42,73 @@ export const GlobalProvider = ({ children }: { children: any }) => {
   const deleteItem = (value: any) =>
     deleteItemFunc(value, cartList, setUpdateCart);
 
-  const updateFilterList = (value: any) => {
-    let filterListCopy = [...filterList];
-    const index = _.findIndex(
-      filterListCopy,
-      function (val: { choice: string | number }) {
-        return val.choice === value.choice;
-      }
-    );
-
-    if (index === -1) {
-      filterListCopy.push({ type: value.type, choice: value.choice });
-    } else {
-      filterListCopy.splice(index, 1);
-    }
-    setfilterList(filterListCopy);
+  const updateFilterList = (value: { type: string; choice: string }) => {
+    updateFilterListFunc(value, filterList, setfilterList);
   };
 
-  const filterItems = () => {};
+  const clearFilters = () => clearFiltersFunc(setfilterList);
 
   useEffect(() => {
-    let productListCopy = [...productList];
-    console.log("checkkkk", filterList);
-    // debugger;
-    // for (let i in filterList) {
-    //   productListCopy = productListCopy.filter(
-    //     (x) =>
-    //       x.type === filterList[i].choice ||
-    //       x.gender === filterList[i].choice ||
-    //       x.color === filterList[i].choice ||
-    //       x.price === filterList[i].choice
-    //   );
-    // }
-    // console.log(productListCopy);
+    let filteredSearch: ProductList = [...productList];
+    const filterTypes = ["name", "color", "type"];
+
+    const filterSearch = (item: object) => {
+      let flag = false;
+      filterTypes.forEach((val: string) => {
+        //@ts-ignore
+        item[val].toLowerCase().includes(search) === true && (flag = true);
+      });
+      return flag;
+    };
+    search === ""
+      ? setFilterSearch([])
+      : ((filteredSearch = filteredSearch.filter((item) => filterSearch(item))),
+        filteredSearch.length > 0 && setFilterSearch(filteredSearch));
+  }, [search]);
+
+  useEffect(() => {
+    let filteredList: ProductList = [...productdata];
+
+    const filtering = (
+      arrList: ProductList,
+      filters: {
+        type: string;
+        choice: string[];
+      }
+    ) => {
+      return arrList.filter((item) =>
+        //@ts-ignore
+        filters.choice.includes(item[filters.type])
+      );
+    };
+
+    const customLogic = (
+      arrList: ProductList,
+      item: { type: string; choice: string[] }
+    ) => {
+      return arrList.filter((product) => {
+        return (
+          item.choice.filter((val) => {
+            let min = JSON.parse(val.split("- ")[0].substring(2));
+            let max = val.split("- ")[1]
+              ? JSON.parse(val.split("- ")[1].substring(2))
+              : 10000000;
+            return product.price >= min && product.price <= max;
+          }).length > 0
+        );
+      });
+    };
+
+    const shouldFilter = filterList.filter((i) => i.choice.length > 0);
+    shouldFilter.length > 0
+      ? filterList.forEach((val) => {
+          val.type === "price"
+            ? (filteredList = customLogic(filteredList, val))
+            : (filteredList = filtering(filteredList, val));
+        })
+      : (filteredList = [...productdata]);
+
+    setProductList(filteredList);
   }, [filterList]);
 
   useEffect(() => {
@@ -87,6 +117,7 @@ export const GlobalProvider = ({ children }: { children: any }) => {
         " https://geektrust.s3.ap-southeast-1.amazonaws.com/coding-problems/shopping-cart/catalogue.json "
       )
       .then(function (response) {
+        setProductData(response.data);
         setProductList(response.data);
       })
       .catch(function (error) {
@@ -104,6 +135,10 @@ export const GlobalProvider = ({ children }: { children: any }) => {
         deleteItem,
         updateFilterList,
         filterList,
+        setSearch,
+        search,
+        filterSearch,
+        clearFilters,
       }}
     >
       {children}

@@ -4,24 +4,25 @@ import { GlobalContext } from "../../context/Provider";
 
 const filterSections = [
   {
-    type: "Color",
-    value: ["red", "blue", "green"],
+    type: "color",
+    value: ["Red", "Blue", "Green"],
   },
   {
-    type: "Gender",
+    type: "gender",
     value: ["Men", "Women"],
   },
   {
-    type: "Price",
+    type: "price",
     value: ["Rs0 - Rs 250", "Rs251 - Rs450", "Rs450"],
   },
   {
-    type: "Type",
+    type: "type",
     value: ["Polo", "Hoodie", "Basic"],
   },
 ];
 
 const Index = () => {
+  // const [checked, setChecked] = use
   const globalStore: any = useContext(GlobalContext);
 
   return (
@@ -39,7 +40,12 @@ const Index = () => {
                   type="checkbox"
                   id={j}
                   name={j}
-                  value={j}
+                  checked={
+                    globalStore.filterList.filter(
+                      (val: { type: string; choice: string[] }) =>
+                        val.choice.filter((value) => value === j).length > 0
+                    ).length > 0
+                  }
                   onChange={() =>
                     globalStore.updateFilterList({ type: i.type, choice: j })
                   }
@@ -49,6 +55,14 @@ const Index = () => {
             ))}
           </div>
         ))}
+        <div className="clear-btn-div">
+          <button
+            className="clear-btn"
+            onClick={() => globalStore.clearFilters()}
+          >
+            Clear filters
+          </button>
+        </div>
       </div>
     </div>
   );

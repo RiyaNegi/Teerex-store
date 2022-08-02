@@ -13,7 +13,10 @@ function App() {
         <SearchBar />
         <div className="screen-divide ">
           <Filter />
-          {globalStore.productList.length > 0 ? (
+          {globalStore.filterList.length > 0 &&
+          globalStore.productList.length === 0 ? (
+            <div>Nothing matches your filter</div>
+          ) : globalStore.productList.length > 0 ? (
             <Products />
           ) : (
             <div>loading...</div>

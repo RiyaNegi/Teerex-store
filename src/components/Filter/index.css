@@ -23,3 +23,17 @@
   text-align: left;
   margin: 10px 0px 7px 0px;
 }
+.clear-btn-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.clear-btn {
+  border: none;
+  background-color: black;
+  color: white;
+  padding: 6px 11px;
+  border-radius: 4px;
+  outline: none;
+}
