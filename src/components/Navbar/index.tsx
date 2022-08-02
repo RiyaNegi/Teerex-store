@@ -9,7 +9,9 @@ const Navbar = () => {
 
   return (
     <div className="nav-background">
-      <div>TeeRex Store</div>
+      <Link className="tee-link" to="/Teerex-store">
+        TeeRex Store{" "}
+      </Link>
       <div>
         <span>
           <Link className="tee-link" to="/Teerex-store">
