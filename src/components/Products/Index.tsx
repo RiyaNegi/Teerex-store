@@ -11,7 +11,6 @@ const Index = () => {
       ? globalStore.filterSearch
       : globalStore.productList;
   const cartList = globalStore.cartList;
-  console.log("called?", globalStore.filterSearch);
 
   const productCard = (i: any) => {
     const index = _.findIndex(cartList, function (val: { id: string }) {
