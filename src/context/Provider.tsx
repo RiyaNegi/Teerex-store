@@ -105,7 +105,7 @@ export const GlobalProvider = ({ children }: { children: any }) => {
       );
     };
 
-    const customLogic = (
+    const filterPrice = (
       arrList: ProductList,
       item: { type: string; choice: string[] }
     ) => {
@@ -126,7 +126,7 @@ export const GlobalProvider = ({ children }: { children: any }) => {
     shouldFilter.length > 0
       ? filterList.forEach((val) => {
           val.type === "price"
-            ? (filteredList = customLogic(filteredList, val))
+            ? (filteredList = filterPrice(filteredList, val))
             : (filteredList = filtering(filteredList, val));
         })
       : (filteredList = [...productdata]);
