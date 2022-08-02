@@ -6,6 +6,7 @@ import updateListFunc from "./updateItems";
 import deleteItemFunc from "./deleteItem";
 import updateFilterListFunc from "./updateFilterList";
 import clearFiltersFunc from "./clearFiltersFunc";
+import { BASE_URL, MAX_PRICE } from "../constants";
 
 export const GlobalContext = createContext({});
 
@@ -114,7 +115,7 @@ export const GlobalProvider = ({ children }: { children: any }) => {
             let min = JSON.parse(val.split("- ")[0].substring(2));
             let max = val.split("- ")[1]
               ? JSON.parse(val.split("- ")[1].substring(2))
-              : 10000000;
+              : MAX_PRICE;
             return product.price >= min && product.price <= max;
           }).length > 0
         );
@@ -135,9 +136,7 @@ export const GlobalProvider = ({ children }: { children: any }) => {
 
   useEffect(() => {
     axios
-      .get(
-        " https://geektrust.s3.ap-southeast-1.amazonaws.com/coding-problems/shopping-cart/catalogue.json "
-      )
+      .get(`${BASE_URL}/coding-problems/shopping-cart/catalogue.json `)
       .then(function (response) {
         setProductData(response.data);
         setProductList(response.data);

@@ -4,6 +4,7 @@ import Filter from "./components/Filter/Index";
 import SearchBar from "./components/SearchBar/Index";
 import { useContext } from "react";
 import { GlobalContext } from "./context/Provider";
+import { MOBILE_DIMENSION } from "./constants";
 
 function App() {
   const globalStore: any = useContext(GlobalContext);
@@ -14,7 +15,7 @@ function App() {
           <SearchBar />
         </div>
         <div className="screen-divide ">
-          {globalStore.width > 540 && <Filter />}
+          {globalStore.width > MOBILE_DIMENSION && <Filter />}
           {globalStore.search != "" && globalStore.filterSearch.length === 0 ? (
             <div>Nothing matching your search</div>
           ) : globalStore.filterList.length > 0 &&

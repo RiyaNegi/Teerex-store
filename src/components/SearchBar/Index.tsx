@@ -5,6 +5,7 @@ import { GlobalContext } from "../../context/Provider";
 import { debounce } from "lodash";
 import Filter from "../Filter/Index";
 import filterImg from "../../media/filter.png";
+import { MOBILE_DIMENSION } from "../../constants";
 
 function useOutsideAlerter(ref: any, setFilterToggle: Function) {
   useEffect(() => {
@@ -28,7 +29,7 @@ const Index = () => {
   useOutsideAlerter(wrapperRef, setFilterToggle);
 
   const debounceFn = useCallback(
-    debounce((searchValue) => globalStore.setSearch(searchValue), 700),
+    debounce((searchValue) => globalStore.setSearch(searchValue), 500),
     []
   );
 
@@ -46,7 +47,7 @@ const Index = () => {
         />
         <img src={search} style={{ width: 18 }} />
       </div>
-      {globalStore.width < 540 && (
+      {globalStore.width < MOBILE_DIMENSION && (
         <img
           src={filterImg}
           style={{ width: 18, marginLeft: 15 }}
@@ -54,7 +55,7 @@ const Index = () => {
           ref={wrapperRef}
         />
       )}
-      {globalStore.width < 540 && filterToggle && (
+      {globalStore.width < MOBILE_DIMENSION && filterToggle && (
         <div className="filter-toggle">
           <Filter />
         </div>
