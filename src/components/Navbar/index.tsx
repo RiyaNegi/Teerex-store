@@ -12,7 +12,7 @@ const Navbar = () => {
       <div>TeeRex Store</div>
       <div>
         <span>
-          <Link className="tee-link" to="/">
+          <Link className="tee-link" to="/Teerex-store">
             Products
           </Link>
         </span>{" "}
