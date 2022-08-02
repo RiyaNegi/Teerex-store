@@ -45,6 +45,15 @@ const Index = () => {
       ) : (
         globalStore.cartList.map((i: any) => shoppingList(i))
       )}
+      <div className="total-amt">
+        Total amount :{" "}
+        {globalStore.cartList.length > 0
+          ? globalStore.cartList.reduce(
+              (acc: any, amt: any) => (acc += amt.quantity * amt.price),
+              0
+            )
+          : 0}
+      </div>
     </div>
   );
 };

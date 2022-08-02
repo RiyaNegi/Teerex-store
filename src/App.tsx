@@ -10,14 +10,20 @@ function App() {
   return (
     <div>
       <div className="screen-space">
-        <SearchBar />
+        <div className="searchBar-div">
+          <SearchBar />
+        </div>
         <div className="screen-divide ">
-          <Filter />
-          {globalStore.filterList.length > 0 &&
-          globalStore.productList.length === 0 ? (
+          {globalStore.width > 540 && <Filter />}
+          {globalStore.search != "" && globalStore.filterSearch.length === 0 ? (
+            <div>Nothing matching your search</div>
+          ) : globalStore.filterList.length > 0 &&
+            globalStore.productList.length === 0 ? (
             <div>Nothing matches your filter</div>
           ) : globalStore.productList.length > 0 ? (
-            <Products />
+            <div className="product-div">
+              <Products />
+            </div>
           ) : (
             <div>loading...</div>
           )}

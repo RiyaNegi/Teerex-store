@@ -5,14 +5,23 @@
   text-decoration: none;
   color: white;
   margin: 0px 20px;
+  position: relative;
 }
 .screen-space {
   display: flex;
   flex-direction: column;
-  padding: 40px;
 }
 .screen-divide {
   display: flex;
   justify-content: space-evenly;
   margin-top: 40px;
+  padding: 0px 40px;
+}
+.searchBar-div {
+  padding: 40px 0px;
+  position: sticky;
+  display: block;
+  height: 20px;
+  top: 60px;
+  background-color: white;
 }

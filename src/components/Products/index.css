@@ -60,3 +60,13 @@
   font-weight: 600;
   font-size: 18px;
 }
+@media screen and (max-width: 540px) {
+  .product-div {
+    width: 100%;
+    display: grid;
+    grid-row-gap: 2.5em;
+    grid-column-gap: 2em;
+    grid-template-columns: unset;
+    justify-content: center;
+  }
+}

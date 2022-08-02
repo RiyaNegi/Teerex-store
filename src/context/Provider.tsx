@@ -20,6 +20,14 @@ type ProductList = {
   gender: string;
 }[];
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
 export const GlobalProvider = ({ children }: { children: any }) => {
   const [productList, setProductList] = useState<ProductList>([]);
   const [productdata, setProductData] = useState<ProductList>([]);
@@ -31,10 +39,21 @@ export const GlobalProvider = ({ children }: { children: any }) => {
     }[]
   >([]);
   const [filterSearch, setFilterSearch] = useState<ProductList>([]);
-
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
   const [search, setSearch] = useState("");
 
   const notify = () => toast.error("No more items available!");
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const updateItems = (value: any, add: boolean) =>
     updateListFunc(cartList, value, add, setUpdateCart);
@@ -49,7 +68,8 @@ export const GlobalProvider = ({ children }: { children: any }) => {
   const clearFilters = () => clearFiltersFunc(setfilterList);
 
   useEffect(() => {
-    let filteredSearch: ProductList = [...productList];
+    let filteredSearch: ProductList =
+      filterList.length > 0 ? [...productList] : [...productdata];
     const filterTypes = ["name", "color", "type"];
 
     const filterSearch = (item: object) => {
@@ -60,11 +80,13 @@ export const GlobalProvider = ({ children }: { children: any }) => {
       });
       return flag;
     };
+    /*eslint-disable */
     search === ""
       ? setFilterSearch([])
       : ((filteredSearch = filteredSearch.filter((item) => filterSearch(item))),
-        filteredSearch.length > 0 && setFilterSearch(filteredSearch));
-  }, [search]);
+        setFilterSearch(filteredSearch));
+    /*eslint-enable */
+  }, [search, filterList]);
 
   useEffect(() => {
     let filteredList: ProductList = [...productdata];
@@ -139,6 +161,7 @@ export const GlobalProvider = ({ children }: { children: any }) => {
         search,
         filterSearch,
         clearFilters,
+        width: windowDimensions.width,
       }}
     >
       {children}

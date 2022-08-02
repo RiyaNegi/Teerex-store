@@ -4,4 +4,23 @@
   padding: 20px;
   display: flex;
   justify-content: space-between;
+  position: sticky;
+  top: 0px;
+}
+.cart-count {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: -13px;
+  background-color: white;
+  color: black;
+  right: 22px;
+  left: 19px;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: 600;
 }

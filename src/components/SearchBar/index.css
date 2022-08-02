@@ -12,9 +12,22 @@
   width: 100%;
   outline: none;
   border-bottom: 1px solid gray;
-  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .search-bar > input:focus {
   border-bottom: 2px solid rgb(82, 82, 82);
+}
+@media screen and (max-width: 540px) {
+  .search-bar {
+    display: flex;
+    width: 70%;
+  }
+}
+.filter-toggle {
+  right: 44px;
+  position: absolute;
+  z-index: 999;
+  background-color: white;
+  top: 142px;
 }
