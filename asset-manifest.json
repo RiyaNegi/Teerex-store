@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Teerex-store/static/css/main.09d18f07.css",
-    "main.js": "/Teerex-store/static/js/main.5d8d900a.js",
+    "main.js": "/Teerex-store/static/js/main.a2e69711.js",
     "index.html": "/Teerex-store/index.html",
     "main.09d18f07.css.map": "/Teerex-store/static/css/main.09d18f07.css.map",
-    "main.5d8d900a.js.map": "/Teerex-store/static/js/main.5d8d900a.js.map"
+    "main.a2e69711.js.map": "/Teerex-store/static/js/main.a2e69711.js.map"
   },
   "entrypoints": [
     "static/css/main.09d18f07.css",
-    "static/js/main.5d8d900a.js"
+    "static/js/main.a2e69711.js"
   ]
 }
