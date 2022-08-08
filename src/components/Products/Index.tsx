@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { GlobalContext } from "../../context/Provider";
 import "./index.css";
 import _ from "lodash";
@@ -37,11 +37,12 @@ const Index = () => {
     );
   };
 
-  return (
-    <div className="product-div">
-      {productList.map((i: any) => productCard(i))}
-    </div>
+  const memoizedProductList = useMemo(
+    () => productList.map((i: any) => productCard(i)),
+    [productList, cartList]
   );
+
+  return <div className="product-div">{memoizedProductList}</div>;
 };
 
 export default Index;
