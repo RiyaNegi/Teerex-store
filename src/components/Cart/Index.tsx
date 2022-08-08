@@ -1,9 +1,9 @@
 import "./index.css";
-import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { GlobalContext } from "../../context/Provider";
 import _ from "lodash";
 import ItemQuantity from "../Products/ItemQuantity";
+import React from "react";
 
 const Index = () => {
   const globalStore: any = useContext(GlobalContext);
@@ -36,6 +36,11 @@ const Index = () => {
     );
   };
 
+  const memoizedCartList = React.useMemo(
+    () => globalStore.cartList.map((i: any) => shoppingList(i)),
+    [globalStore.cartList]
+  );
+
   return (
     <div className="cart-page">
       <span className="cart-title">Shopping Cart</span>
@@ -43,7 +48,7 @@ const Index = () => {
       {globalStore.cartList.length === 0 ? (
         <div className="empty-cart">Your cart is empty</div>
       ) : (
-        globalStore.cartList.map((i: any) => shoppingList(i))
+        memoizedCartList
       )}
       <div className="total-amt">
         Total amount :{" "}
@@ -58,4 +63,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default React.memo(Index);
